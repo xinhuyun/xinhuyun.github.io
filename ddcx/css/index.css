@@ -1,0 +1,92 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  background: linear-gradient(180deg, #3b99f1, #3b99f1);
+}
+.app .ddbh {
+  width: 80%;
+  height: 35px;
+  margin-left: 10%;
+  background-color: #28b87b;
+  margin-top: 8%;
+  border-radius: 8px;
+  line-height: 35px;
+  text-align: center;
+  z-index: 9999;
+  position: relative;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+.app .conten {
+  z-index: 9999;
+  position: relative;
+  width: 95%;
+  height: auto;
+  margin-left: 2.5%;
+  margin-top: 5%;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+.app .conten ul {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  padding: 0px 10px;
+  border-bottom: 1px solid #eef1f5;
+}
+.app .conten ul li {
+  list-style: none;
+  float: left;
+}
+.app .conten ul li span {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #07c160;
+  color: #fff;
+}
+.app .conten ul li .cuwu {
+  background-color: #f5797f;
+}
+.app .conten ul .one {
+  width: 20%;
+}
+.app .conten ul .two {
+  text-align: right;
+  width: 70%;
+  float: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #969799;
+}
+.app .dddt {
+  height: auto;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  padding: 5px 0px;
+  font-size: 14px;
+}
+.app .dddt div {
+  padding: 0px 10px;
+  line-height: 23px;
+}
+.app .dddt div span {
+  font-size: 12px;
+  color: red;
+}
+.list {
+  background-color: #ffffff;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+.top1 img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 10px auto;
+}

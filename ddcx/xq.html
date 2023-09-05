@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>订单详情</title>
+</head>
+
+<body>
+    <div class="app">
+        <div class="top1"><img src="./img/top1.png" alt=""></div>
+        <div class="ddbh">共查询有 0 个订单</div>
+        <div class="conten">
+        </div>
+    </div>
+</body>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $.getJSON("http://hk.haokale.com/card/info/query/order/list?phone=" + window.location.search.substr(7, 20), function (res) {
+        $(".ddbh").html(`共查询有  ${res.data.length} 个订单`)
+        $.each(res.data, function (i, item) {
+
+            $(".conten").append(`
+            <div class="list">
+                <ul>
+            <li  class="one">姓名</li>
+                <li class="two">${item.name}</li>
+            </ul>
+            <ul>
+                <li class="one">联系电话</li>
+                <li class="two">${item.phone}</li>
+            </ul>
+            <ul>
+                <li  class="one">套餐名称</li>
+                <li class="two">${(item.productSku).substring(6, 12)}</li>
+            </ul>
+            <ul>
+                <li  class="one">快递公司</li>
+                <li class="two">${item.trackingCompany == null ? `---` : item.trackingCompany}</li>
+            </ul>
+            <ul>
+                <li  class="one">物流单号</li>
+                <li class="two">${item.trackingNumber == null ? `--- ` : item.trackingNumber}</li>
+            </ul>
+
+            <ul>
+                <li  class="one">收件地区</li>
+                <li class="two">${item.address}</li>
+            </ul>
+            <ul>
+                <li  class="one">提交时间</li>
+                <li class="two">${item.createTime}</li>
+            </ul>
+            <ul style="border-bottom: ${item.reason == "" || item.reason == null ? "none" : ""}" class="hide">
+                <li  class="one" >订单状态</li>
+                <li class="two"><span class=${item.state == "订单终止" || item.state == "开卡失败" ? "cuwu" : ""}>${item.state}</span></li>
+            </ul>
+            <div class="dddt" style="display: ${item.reason == "" || item.reason == null ? "none" : ""}">
+            <div>订单实时动态: <br><span class="reason">${item.reason}</span></div>
+            </div>
+            </div>
+            
+        `)
+        })
+
+    })
+</script>
+
+</html>

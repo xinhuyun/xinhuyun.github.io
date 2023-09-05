@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>号卡中心</title>
+    <script src="js/resize.js"></script>
+    <script src="js/vue.global.prod.js"></script>
+    <link rel="stylesheet" href="css/page.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
+    <script src="js/jquery.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+</head>
+
+<body>
+    <div class="headers">
+        <p class="title-name">心湖韵通信</p>
+        <div class="kb">
+            <div class="dp"><img src="img/kb.png" alt=""></div>
+            <div class="sz">9.9</div>
+        </div>
+        <div class="name">套餐真实</div>
+        <div class="name name2">售后稳定</div>
+        <div class="name name3">靠谱好用</div>
+        <div class="kf-dd">
+            <a href="#" class="kf kf-url" target="_blank" style="pointer-events:none">
+            </a>
+            <a href="/ddcx" class="kf dd"> </a>
+        </div>
+    </div>
+
+    <div class="pageList" style="top:155px">
+        <div class="advice marginBottom24">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="img/logo.jpg" alt="" style="width: 100%; height: 100%;"
+                            id="bigimg"></div>
+                    <div class="swiper-slide"><img src="img/3.jpg" alt="" style="width: 100%; height: 100%;"
+                            id="bigimg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <ul class="uls1">
+                <li class="active DX">中国电信</li>
+                <li class="LT">中国联通</li>
+                <li class="YD">中国移动</li>
+                <li class="GD">中国广电</li>
+                <b class="border"></b>
+            </ul>
+            <ul class="uls2" style="margin-top: 14px">
+                <li class="list on">
+                    <div class="sss">
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <a href="https://beian.miit.gov.cn/" target="_blank"
+            style="font-size: 12px; color: #999; text-align: center; padding-bottom: 5px; display: block;">ICP备案：豫ICP备2023012201号-1</a>
+        <a href="#"
+            style="font-size: 12px; color: #999; text-align: center; padding-bottom: 10px; display: block;">Copyright
+            2021-2023 电信移动联通联合授权建站</a>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".uls1 li").mouseover(function () {
+            var $this = $(this);
+            itemIndex = $this.index();
+            $(this).addClass('active').siblings('.uls1 li').removeClass('active');
+            $('.uls1 .border').css('left', $(this).offset().left - 5 + 'px');
+            $('.list').eq(itemIndex).show().siblings('.list').hide();
+        });
+    })
+    $(".uls1 li").click(function () {
+        $(".list .sss").html("")
+    })
+    
+    var nameid = "xinhuyun" 
+    UIDS = nameid
+    var title = "号卡中心"
+    $.get("http://hk.haokale.com/shop/query/info?diyId=" + nameid, function (res) {
+        if (res.msg == "id不存在，请联系管理员") {
+            alert("网站在修复，请联系管理员")
+        }
+        if (res.data.title != "" && res.data.title != null) {
+            $(".title-name").html(res.data.title)
+            title = res.data.title
+        }
+        if (res.data.customerService != "") {
+            $(".kf-url").css("pointer-events", "auto")
+            $(".kf-url").attr("href", "/weixinkefu.jpg")
+        }
+        var DXNURR = []
+        var GDNURR = []
+        var LTNURR = []
+        var YDNURR = []
+        $.getJSON("http://hk.haokale.com/shop/query/goods?diyId=" + nameid + "&pageNumber=1&pageSize=200", function (res) {
+            $.each(JSON.parse(res.msg).data.data.reverse(), function (i, item) {
+                if (parseInt(item.title.substr(0, 4)) > 1000) {
+                    if (item.title.indexOf("联通") > -1) {
+                        LTNURR.push(item)
+                    }
+                    if (item.title.indexOf("电信") > -1) {
+                        DXNURR.push(item)
+                    } if (item.title.indexOf("移动") > -1) {
+                        YDNURR.push(item)
+                    } if (item.title.indexOf("广电") > -1) {
+                        GDNURR.push(item)
+                    }
+                }
+            })
+            // 获取联通商品
+            $(".LT").click(function () {
+                $.each(LTNURR, function (i, item) {
+                    $(".list .sss").append(`
+           <div class="proBox">
+           <div class="imageUrl"><img src="${item.image1}"alt="" style="width: 100%; height: 100%;"><span
+           class="header flex-all-center">${i + 1}</span></div>
+           <div class="type2-container">
+           <div class="title-container">
+           <div class="main-title">${(item.title).substring(7, 12)}</div>
+           <div class="sellingPoint">${item.selling_point[0]}</div>
+           </div>
+           <div class="sub-title">${(item.title).substring(12, 100)}</div>
+           <a href="3.html?id=${item.title.substring(0, 4)}?uid=${UIDS}" class="typeBtn">免费申请</a></div></div>`)
+                })
+            })
+            // 获取电信商品
+            $(".DX").click(function () {
+                $.each(DXNURR, function (i, item) {
+                    $(".list .sss").append(`
+           <div class="proBox">
+           <div class="imageUrl"><img src="${item.image1}"alt="" style="width: 100%; height: 100%;"><span
+           class="header flex-all-center">${i + 1}</span></div>
+           <div class="type2-container">
+           <div class="title-container">
+           <div class="main-title">${(item.title).substring(7, 12)}</div>
+           <div class="sellingPoint">${item.selling_point[0]}</div>
+           </div>
+           <div class="sub-title">${(item.title).substring(12, 100)}</div>
+           <a href="3.html?id=${item.title.substring(0, 4)}?uid=${UIDS}" class="typeBtn">免费申请</a></div></div>`)
+                })
+            })
+            // 获取移动商品
+            $(".YD").click(function () {
+                $.each(YDNURR, function (i, item) {
+                    $(".list .sss").append(`
+           <div class="proBox">
+           <div class="imageUrl"><img src="${item.image1}"alt="" style="width: 100%; height: 100%;"><span
+           class="header flex-all-center">${i + 1}</span></div>
+           <div class="type2-container">
+           <div class="title-container">
+           <div class="main-title">${(item.title).substring(7, 12)}</div>
+           <div class="sellingPoint">${item.selling_point[0]}</div>
+           </div>
+           <div class="sub-title">${(item.title).substring(12, 100)}</div>
+           <a href="3.html?id=${item.title.substring(0, 4)}?uid=${UIDS}" class="typeBtn">免费申请</a></div></div>`)
+                })
+            })
+            // 获取广电商品
+
+            $(".GD").click(function () {
+                $.each(GDNURR, function (i, item) {
+                    $(".list .sss").append(`
+           <div class="proBox">
+           <div class="imageUrl"><img src="${item.image1}"alt="" style="width: 100%; height: 100%;"><span
+           class="header flex-all-center">${i + 1}</span></div>
+           <div class="type2-container">
+           <div class="title-container">
+           <div class="main-title">${(item.title).substring(7, 12)}</div>
+           <div class="sellingPoint">${item.selling_point[0]}</div>
+           </div>
+           <div class="sub-title">${(item.title).substring(12, 100)}</div>
+           <a href="3.html?id=${item.title.substring(0, 4)}?uid=${UIDS}" class="typeBtn">免费申请</a></div></div>`)
+                })
+            })
+            $(".DX").click()
+        })
+        $.get("http://hk.haokale.com/wx/getConfigData?url=" + window.location.href, function (res) {
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有 api 的返回值会在客户端 alert 出来，若要查看传入的参数，可以在 pc 端打开，参数信息会通过 log 打出，仅在 pc 端时才会打印。
+                appId: res.data.appId, // 必填，公众号的唯一标识
+                timestamp: parseInt(res.data.timestamp), // 必填，生成签名的时间戳
+                nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                signature: res.data.signature, // 必填，签名
+                jsApiList: ["updateTimelineShareData", "updateAppMessageShareData"] // 必填，需要使用的JS接口列表
+            })
+            // 需在用户可能点击分享按钮前就先调用，说白了就是放在文章详情信息读取完后就可以执行下面的wx.ready()方法
+            wx.ready(function () {
+                // 自定义“分享给朋友”及“分享到QQ”按钮的分享内容
+                wx.updateAppMessageShareData({
+                    title: title,// 分享标题
+                    desc: '移动，联通，电信官方授权店。正规11位号卡免费办理，京东包邮到家，多种套餐免费办理！', // 分享描述
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'http://lm.05321888.com:88/hkzs/date/img/1691306123993.png', // 分享图标
+                    success: function () {
+                        // 设置成功
+                    }
+                })
+                // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
+                wx.updateTimelineShareData({
+                    title: title, // 分享标题
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'http://lm.05321888.com:88/hkzs/date/img/1691306123993.png', // 分享图标
+                    success: function () {
+                        // 设置成功
+                    }
+                })
+                wx.onMenuShareAppMessage({
+                    title: title, // 分享标题
+                    desc: '移动，联通，电信官方授权店。正规11位号卡免费办理，京东包邮到家，多种套餐免费办理！', // 分享描述
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'http://lm.05321888.com:88/hkzs/date/img/1691306123993.png',// 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户点击了分享后执行的回调函数
+                    }
+                });
+            })
+        })
+    })
+</script>
+<script src="js/swiper-bundle.min.js"></script>
+<script>
+    var mySwiper = new Swiper('.mySwiper ', {
+        loop: true, // 循环模式选项
+        speed: 1000, //速度
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+        autoplay: true, //自动切换
+        autoplay: {
+            delay: 5000, //自动切换的时间间隔，单位ms
+            disableOnInteraction: false //用户操作swiper之后，是否禁止autoplay
+        },
+        noSwiping: true, //设为true时，可以在slide上（或其他元素）增加类名'swiper-no-swiping'，使该slide无法拖动
+        autoHeight: true, //自动高度
+        slidesPerView: 'auto', //设置slider容器能够同时显示的slides数量
+        observeParents: true, //当Swiper的父元素变化时Swiper更新。
+    })
+
+
+</script>

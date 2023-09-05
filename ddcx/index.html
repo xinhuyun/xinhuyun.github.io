@@ -1,0 +1,93 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>订单查询</title>
+    <meta charset="utf-8" />
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control" />
+    <meta content="no-cache" http-equiv="pragma" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="css/cx.css">
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+</head>
+
+<body>
+    <div class="cx_cen">
+        <div class="cx_1"><img src="img/top1.png" width="" height="" alt="" /></div>
+        <div class="cx_2">
+            <form>
+                <input class="cx_text" type="text" id="phone" name="phone" placeholder="请输入收货人手机号码">
+                <a class="cx_btn" href="javascript:;sub();">查询</a>
+            </form>
+        </div>
+        <div class="cx_3"><img src="img/top2.png" width="" height="" alt="" /></div>
+    </div>
+</body>
+<script>
+    var reg = /^(0|86|17951)?(13|14|15|16|17|18|19)[0-9]{9}$/;
+    function sub() {
+        var phone = $("#phone").val().trim();
+        if (phone == "") {
+            alert("请输入收件人手机号");
+            return false;
+        } else {
+            var phone = $("#phone").val().trim();
+            if (phone.match(reg) == null) {
+                alert("请输入正确的手机号");
+                return false;
+            }
+            window.location.href = "./xq.html?phone=" + phone
+
+        }
+    }
+    $.get("http://hk.haokale.com/wx/getConfigData?url=" + window.location.href, function (res) {
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有 api 的返回值会在客户端 alert 出来，若要查看传入的参数，可以在 pc 端打开，参数信息会通过 log 打出，仅在 pc 端时才会打印。
+                appId: res.data.appId, // 必填，公众号的唯一标识
+                timestamp: parseInt(res.data.timestamp), // 必填，生成签名的时间戳
+                nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                signature: res.data.signature, // 必填，签名
+                jsApiList: ["updateTimelineShareData", "updateAppMessageShareData"] // 必填，需要使用的JS接口列表
+            })
+            // 需在用户可能点击分享按钮前就先调用，说白了就是放在文章详情信息读取完后就可以执行下面的wx.ready()方法
+            wx.ready(function () {
+                // 自定义“分享给朋友”及“分享到QQ”按钮的分享内容
+                wx.updateAppMessageShareData({
+                    title: "订单查询",// 分享标题
+                    desc: '输入收货手机号，即可查询号卡办理进度，以及快递物流信息', // 分享描述
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://img0.baidu.com/it/u=1470451112,4160906011&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', // 分享图标
+                    success: function () {
+                        // 设置成功
+                    }
+                })
+                // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
+                wx.updateTimelineShareData({
+                    title: "订单查询",// 分享标题
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://img0.baidu.com/it/u=1470451112,4160906011&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', // 分享图标
+                    success: function () {
+                        // 设置成功
+                    }
+                })
+                wx.onMenuShareAppMessage({
+                    title: "订单查询",// 分享标题
+                    desc: '输入收货手机号，即可查询号卡办理进度，以及快递物流信息', // 分享描述
+                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://img0.baidu.com/it/u=1470451112,4160906011&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户点击了分享后执行的回调函数
+                    }
+                });
+            })
+        })
+</script>
+
+</html>
